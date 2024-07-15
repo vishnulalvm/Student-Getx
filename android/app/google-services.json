@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1023978407022",
+    "project_id": "student-getx-51030",
+    "storage_bucket": "student-getx-51030.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023978407022:android:92ea53aa2e9f81fe87127f",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB27bGZSef8I-sgOHyVHWksUa0ABqlRryk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
