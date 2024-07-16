@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:myapp/application/services/student_service.dart';
 import 'package:myapp/domian/models/student_model.dart';
+import 'package:myapp/presentation/controllers/student_controller.dart';
 import 'package:myapp/presentation/widgets/scroll_to_hide.dart';
 import 'package:myapp/presentation/widgets/search_section.dart';
 import 'package:myapp/presentation/widgets/show_dialog.dart';
@@ -14,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final StudentController studentController = Get.put(StudentController());
   StudentService studentService = StudentService();
   final nameController = TextEditingController();
   final ageController = TextEditingController();
@@ -110,7 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-
 
   void _showMessage(String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
