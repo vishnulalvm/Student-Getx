@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:myapp/domian/models/student_model.dart';
+import 'package:myapp/models/student_model.dart';
 
 class StudentService {
   final CollectionReference _collectionReference =

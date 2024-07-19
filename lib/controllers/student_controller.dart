@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:myapp/domian/models/student_model.dart';
+import 'package:myapp/models/student_model.dart';
 
 class StudentController extends GetxController {
   var students = <StudentModel>[].obs;

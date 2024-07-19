@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/application/services/student_service.dart';
-import 'package:myapp/domian/models/student_model.dart';
-import 'package:myapp/presentation/controllers/student_controller.dart';
-import 'package:myapp/presentation/widgets/scroll_to_hide.dart';
-import 'package:myapp/presentation/widgets/search_section.dart';
-import 'package:myapp/presentation/widgets/show_dialog.dart';
-import 'package:myapp/presentation/widgets/user_list.dart';
+import 'package:myapp/services/student_service.dart';
+import 'package:myapp/models/student_model.dart';
+import 'package:myapp/controllers/student_controller.dart';
+import 'package:myapp/view/widgets/scroll_to_hide.dart';
+import 'package:myapp/view/widgets/search_section.dart';
+import 'package:myapp/view/widgets/show_dialog.dart';
+import 'package:myapp/view/widgets/user_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FloatingActionButton(
           shape: const CircleBorder(),
           onPressed: () {
-            showLogoutDialog(context);
+            Get.toNamed('/addStudent');
           },
           child: const Icon(
             Icons.add,

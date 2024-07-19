@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:myapp/domian/models/student_model.dart';
-import 'package:myapp/presentation/controllers/student_controller.dart';
-import 'package:myapp/presentation/widgets/custom_button.dart';
-import 'package:myapp/presentation/widgets/widget_space.dart';
+import 'package:myapp/models/student_model.dart';
+import 'package:myapp/controllers/student_controller.dart';
+import 'package:myapp/view/widgets/custom_button.dart';
+import 'package:myapp/view/widgets/widget_space.dart';
 import 'package:myapp/utils/text/modified_text.dart';
 import 'package:uuid/uuid.dart';
 
@@ -46,6 +46,10 @@ return GetBuilder<StudentController>(
             size: 13,
             color: Colors.black,
           )),
+
+
+
+          
           content: SingleChildScrollView(
             child: Container(
               decoration: const BoxDecoration(color: Colors.white),
@@ -178,6 +182,8 @@ return GetBuilder<StudentController>(
           ),
           actions: [
             buttons(
+              height: 28,
+              width: 95,
               buttonName: 'Cancel',
               textColor: Colors.black87,
               color: const Color.fromRGBO(204, 204, 204, 1),
@@ -186,6 +192,8 @@ return GetBuilder<StudentController>(
               },
             ),
             Obx(() => buttons(
+                height: 28,
+              width: 95,
               buttonName: controller.isLoading.value ? 'Update' : 'Save',
               textColor: Colors.white,
               color: const Color.fromRGBO(23, 130, 225, 1),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/presentation/widgets/bottom_sheet.dart';
+import 'package:myapp/view/widgets/bottom_sheet.dart';
 
 
 class SearchSection extends StatelessWidget {

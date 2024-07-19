@@ -2,6 +2,8 @@
 import 'package:myapp/utils/text/modified_text.dart';
 
 Widget buttons({
+  required double height,
+  required double width,
     required VoidCallback onTap,
     required String buttonName,
     Color? color,
@@ -10,8 +12,8 @@ Widget buttons({
     return InkWell(
       onTap: onTap, // Call the provided function when tapped
       child: Container(
-        height: 28,
-        width: 95,
+        height: height,
+        width: width,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(8),

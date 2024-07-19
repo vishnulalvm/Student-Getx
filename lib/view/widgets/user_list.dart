@@ -1,8 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/application/services/student_service.dart';
-import 'package:myapp/domian/models/student_model.dart';
-import 'package:myapp/presentation/widgets/show_dialog.dart';
+import 'package:myapp/services/student_service.dart';
+import 'package:myapp/models/student_model.dart';
+import 'package:myapp/view/widgets/show_dialog.dart';
 import 'package:myapp/utils/font/font_color.dart';
 import 'package:myapp/utils/text/modified_text.dart';
 
