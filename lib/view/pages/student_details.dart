@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/controllers/data_controller.dart';
+import 'package:myapp/controllers/student_controller.dart';
 import 'package:myapp/services/student_service.dart';
 import 'package:myapp/utils/text/modified_text.dart';
-import 'package:myapp/view/widgets/confirm_dialogbox.dart';
 import 'package:myapp/view/widgets/custom_button.dart';
 import 'package:myapp/view/widgets/widget_space.dart';
 
@@ -13,7 +13,11 @@ class StudentDetails extends StatefulWidget {
   final String imageUrl;
   final String id;
   const StudentDetails(
-      {super.key, required this.name, required this.age, required this.imageUrl, required this.id});
+      {super.key,
+      required this.name,
+      required this.age,
+      required this.imageUrl,
+      required this.id});
 
   @override
   State<StudentDetails> createState() => _StudentDetailsState();
@@ -24,6 +28,7 @@ class _StudentDetailsState extends State<StudentDetails> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(DataController());
+    final studentController = Get.find<StudentController>();
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.name),
@@ -87,7 +92,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                       ),
                       child: Center(child: Obx(() {
                         if (controller.apiDataModel.value.id != null) {
-                          return  ModifiedText(
+                          return ModifiedText(
                               text: "${controller.apiDataModel.value.id}",
                               size: 17,
                               color: Colors.black);
@@ -108,10 +113,9 @@ class _StudentDetailsState extends State<StudentDetails> {
                       height: 50,
                       width: 150,
                       onTap: () {
-                        MyAlertDialog(
-                          message: 'Are you sure you want to delete this user?',
-                          context: context,
-                        );
+                        Get.toNamed('/edit', arguments: widget);
+
+                      
                       },
                       buttonName: "Edit",
                       textColor: Colors.white,
@@ -120,8 +124,24 @@ class _StudentDetailsState extends State<StudentDetails> {
                       height: 50,
                       width: 150,
                       onTap: () {
-                        studentService.deleteStudent(widget.id);
-                        Get.back();
+                        studentController.deleteStudent(widget.id);
+                                Get.back();
+
+
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (BuildContext context) {
+                        //     return MyAlertDialog(
+                        //       onYes: () {
+
+                        //         studentController.deleteStudent(widget.id);
+                        //         Get.back();
+                        //       },
+                        //       message: 'Are you sure you want to proceed?',
+                        //       context: context,
+                        //     );
+                        //   },
+                        // );
                       },
                       buttonName: "delete",
                       textColor: Colors.white,

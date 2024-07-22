@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myapp/bindings/home_binding.dart';
 import 'package:myapp/view/pages/add_student.dart';
+import 'package:myapp/view/pages/edit_student.dart';
 import 'package:myapp/view/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:myapp/view/pages/splash_page.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/', page: () => const HomeScreen(), binding: HomeBinding()),
         GetPage(name: '/splash', page: () => const SplashScreen()),
+        GetPage(name: '/edit', page: () => EditStudent(
+          studentModel: Get.arguments,
+        )),
         // GetPage(name: '/details', page: () => const StudentDetails(),),
         GetPage(name: '/addStudent', page: () => const AddStudent()),
       ],

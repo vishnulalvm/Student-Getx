@@ -1,10 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:myapp/controllers/student_controller.dart';
 import 'package:myapp/services/student_service.dart';
 import 'package:myapp/models/student_model.dart';
 import 'package:myapp/view/pages/student_details.dart';
-import 'package:myapp/view/widgets/confirm_dialogbox.dart';
-import 'package:myapp/view/widgets/show_dialog.dart';
 import 'package:myapp/utils/font/font_color.dart';
 import 'package:myapp/utils/text/modified_text.dart';
 
@@ -22,6 +22,7 @@ class _UserlistSectionState extends State<UserlistSection> {
   StudentService studentService = StudentService();
   @override
   Widget build(BuildContext context) {
+    final studentController = Get.find<StudentController>();
     return Expanded(
       child: ListView.builder(
         controller: widget.scrollController,
@@ -74,29 +75,26 @@ class _UserlistSectionState extends State<UserlistSection> {
                       width: 50,
                       child: Row(
                         children: [
-                          // IconButton(
-                          //   onPressed: () {
-                          //     editButton(context, student);
-                          //   },
-                          //   icon: const Icon(
-                          //     Icons.edit,
-                          //     color: Colors.black,
-                          //   ),
-                          // ),
                           IconButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return MyAlertDialog(
-                                    onYes: () => studentService
-                                        .deleteStudent(student.id),
-                                    message:
-                                        'Are you sure you want to proceed?',
-                                    context: context,
-                                  );
-                                },
-                              );
+                                  studentController
+                                          .deleteStudent(student.id!);
+                                      Get.back();
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (BuildContext context) {
+                              //     return MyAlertDialog(
+                              //       onYes: () {
+                              //         studentController
+                              //             .deleteStudent(student.id!);
+                              //         Get.back();
+                              //       },
+                              //       message:
+                              //           'Are you sure you want to proceed?',
+                              //       context: context,
+                              //     );
+                              //   },
+                              // );
                             },
                             icon: const Icon(
                               Icons.delete,
@@ -116,28 +114,28 @@ class _UserlistSectionState extends State<UserlistSection> {
     );
   }
 
-  void editButton(BuildContext context, StudentModel student) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AddUserDialog(
-          studentModel: student,
-          onSave: (StudentModel studentModel) async {
-            StudentService studentService = StudentService();
-            final result = await studentService.newStudent(studentModel);
-            _showMessage(result!, isError: result.startsWith('Error'));
-          },
-        );
-      },
-    );
-  }
+  // void editButton(BuildContext context, StudentModel student) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AddUserDialog(
+  //         studentModel: student,
+  //         onSave: (StudentModel studentModel) async {
+  //           StudentService studentService = StudentService();
+  //           final result = await studentService.newStudent(studentModel);
+  //           _showMessage(result!, isError: result.startsWith('Error'));
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
-  void _showMessage(String message, {bool isError = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? Colors.red : Colors.green,
-      ),
-    );
-  }
+  // void _showMessage(String message, {bool isError = false}) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(message),
+  //       backgroundColor: isError ? Colors.red : Colors.green,
+  //     ),
+  //   );
+  // }
 }

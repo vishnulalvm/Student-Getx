@@ -66,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
             ),
           ),
-
           Expanded(
             child: Obx(() {
               if (studentController.isLoading.value) {
@@ -81,29 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             }),
           )
-
-          //  StreamBuilder<List<StudentModel>>(
-          //   stream: studentService.getStudent(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const Center(child: CircularProgressIndicator());
-          //     }
-          //     if (snapshot.hasError) {
-          //       return const Center(child: Text('Something went wrong'));
-          //     }
-          //     if (!snapshot.hasData || snapshot.data == null) {
-          //       return const Center(child: Text('No data found'));
-          //     }
-
-          //     List<StudentModel> list = snapshot.data ?? [];
-          //     list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
-
-          //     return UserlistSection(
-          //       scrollController: scrollController,
-          //       list: list,
-          //     );
-          //   },
-          // ),
         ],
       ),
       floatingActionButton: ScrollToHide(

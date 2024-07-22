@@ -6,19 +6,19 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:myapp/models/student_model.dart';
+import 'package:myapp/services/student_service.dart';
 
 class StudentController extends GetxController {
+  final StudentService studentService = StudentService();
   final CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('student');
-  // var students = <StudentModel>[].obs;
   var nameController = TextEditingController();
   var ageController = TextEditingController();
   var imagePath = ''.obs;
   var imageFile = Rx<File?>(null);
-  // var isLoading = false.obs;
   var isInitialized = false;
 
-final RxList<StudentModel> studentlists = <StudentModel>[].obs;
+  final RxList<StudentModel> studentlists = <StudentModel>[].obs;
   final RxBool isLoading = false.obs;
   final debouncer = Debouncer(milliseconds: 500);
 
@@ -44,10 +44,46 @@ final RxList<StudentModel> studentlists = <StudentModel>[].obs;
     update();
   }
 
-  void addStudent(StudentModel student) {
-    // students.add(student);
-    studentlists.add(student);
-    update();
+  Future<void> addStudent(StudentModel student) async {
+    final result = await studentService.newStudent(student);
+    if (result == 'Student created successfully') {
+      showMessage('Student added successfully');
+      studentlists.add(student);
+      update();
+    } else {
+      showMessage('Failed to add student: $result', isError: true);
+    }
+  }
+
+  Future<void> deleteStudent(String id) async {
+    try {
+      final result = await studentService.deleteStudent(id);
+      if (result == 'Student deleted successfully') {
+        // Remove the student from the local list
+        studentlists.removeWhere((student) => student.id == id);
+        showMessage('Student deleted successfully');
+        print("delete 9999");
+      } else {
+        showMessage('Failed to delete student: $result', isError: true);
+        print("delete 0000");
+      }
+    } catch (e) {
+      showMessage('Error deleting student: $e', isError: true);
+    }
+  }
+
+   Future<void> updateStudent(StudentModel student) async {
+    try {
+      await studentService.updateStudent(student);
+      int index = studentlists.indexWhere((s) => s.id == student.id);
+      if (index != -1) {
+        studentlists[index] = student;
+      }
+      Get.back();
+      showMessage('Student updated successfully');
+    } catch (e) {
+      showMessage('Error updating student: $e', isError: true);
+    }
   }
 
   void updateImagePath(String path) {
@@ -86,7 +122,6 @@ final RxList<StudentModel> studentlists = <StudentModel>[].obs;
           .child('profile_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
 
       File file = File(pickedImage.path);
-
       firebase_storage.UploadTask uploadTask = ref.putFile(file);
       await uploadTask.whenComplete(() => null);
 
@@ -128,11 +163,11 @@ final RxList<StudentModel> studentlists = <StudentModel>[].obs;
     }
   }
 
-Future<void> fetchStudents() async {
+  Future<void> fetchStudents() async {
     try {
       isLoading.value = true;
       final snapshot = await collectionReference.get();
-      studentlists.clear(); // Clear the list before adding new data
+      studentlists.clear();
       for (var element in snapshot.docs) {
         studentlists.add(StudentModel.fromJson(element));
       }
@@ -143,7 +178,6 @@ Future<void> fetchStudents() async {
       isLoading.value = false;
     }
   }
-
 }
 
 class Debouncer {

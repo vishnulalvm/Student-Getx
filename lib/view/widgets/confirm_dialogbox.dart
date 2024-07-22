@@ -35,17 +35,3 @@ class MyAlertDialog extends StatelessWidget {
     );
   }
 }
-
-// // Example usage:
-// void showAlertDialog(BuildContext context) {
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return MyAlertDialog(message: 'Are you sure you want to proceed?');
-//     },
-//   ).then((value) {
-//     if (value != null) {
-//       print(value ? 'User pressed Yes' : 'User pressed No');
-//     }
-//   });
-// }

@@ -17,10 +17,8 @@ class AddStudent extends StatefulWidget {
 
 class _AddStudentState extends State<AddStudent> {
   final _studentKey = GlobalKey<FormState>();
-  // final StudentController controller = Get.find<StudentController>();
   @override
   Widget build(BuildContext context) {
-    // connection binding
     final controller = Get.find<StudentController>();
     return Scaffold(
       appBar: AppBar(
@@ -203,7 +201,6 @@ class _AddStudentState extends State<AddStudent> {
   }
 
   void addOrUpdateStudent(StudentController controller) async {
-    // final StudentController studentController = Get.find<StudentController>();
     if (controller.nameController.text.isEmpty ||
         controller.ageController.text.isEmpty) {
       controller.showMessage('Please fill all fields', isError: true);
@@ -217,10 +214,6 @@ class _AddStudentState extends State<AddStudent> {
       imageUrl: controller.imagePath.value,
       createdAt: DateTime.now(),
     );
-    // StudentService studentService = StudentService();
-    // final result = await studentService.newStudent(newStudent);
-    // showMessage(result!, isError: result.startsWith('Error'));
-    // controller.clearFields();
     controller.addStudent(newStudent);
     controller.clearFields();
     Get.back();

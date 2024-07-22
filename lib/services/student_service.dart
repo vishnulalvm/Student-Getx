@@ -19,45 +19,42 @@ class StudentService {
   // read
   Future<List<StudentModel>> getStudent() async {
     List<StudentModel> studentList = [];
-    final snapshot = await _collectionReference.get();
-    for (var element in snapshot.docs) {
-      studentList.add(StudentModel.fromJson(element));
+    try {
+      final snapshot = await _collectionReference.get();
+      for (var element in snapshot.docs) {
+        studentList.add(StudentModel.fromJson(element));
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+      return [];
     }
     return studentList;
   }
 
-  // Stream<List<StudentModel>> getStudent() {
-  //   try {
-  //     return _collectionReference.snapshots().map((QuerySnapshot snapshot) {
-  //       return snapshot.docs.map((DocumentSnapshot doc) {
-  //         return StudentModel.fromJson(doc);
-  //       }).toList();
-  //     });
-  //   } on FirebaseException catch (e) {
-  //     'Error creating student: ${e.message}';
-  //     rethrow;
-  //   }
-  // }
   // update
-
-  Future<void> updateStudent(StudentModel student) async {
+  Future<String> updateStudent(StudentModel student) async {
     try {
       final studentMap = student.toMap();
       await _collectionReference.doc(student.id).update(studentMap);
+      return 'sucessfull';
     } on FirebaseException catch (e) {
       // ignore: avoid_print
       print(e);
+      return 'Error updating student: $e';
     }
   }
 
   // delete
 
-  Future<void> deleteStudent(String? id) async {
+  Future<String> deleteStudent(String? id) async {
     try {
       await _collectionReference.doc(id).delete();
+      return 'Student deleted successfully';
     } on FirebaseException catch (e) {
       // ignore: avoid_print
       print(e);
+      return 'Error deleting student: $e';
     }
   }
 
