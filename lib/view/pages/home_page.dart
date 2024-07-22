@@ -16,11 +16,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final StudentController studentController = Get.put(StudentController());
+  final StudentController studentController = Get.find<StudentController>();
   StudentService studentService = StudentService();
   final nameController = TextEditingController();
   final ageController = TextEditingController();
   ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchStudents();
+  }
+
+  Future<void> _fetchStudents() async {
+    await studentController.fetchStudents();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,29 +66,44 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
             ),
           ),
-          StreamBuilder<List<StudentModel>>(
-              stream: studentService.getStudent(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return const Center(child: Text('Something went wrong'));
-                }
-                if (snapshot.data == null) {
-                  return const Center(child: Text('No data found'));
-                }
-                if (snapshot.hashCode != 0 && snapshot.data != null) {
-                  List<StudentModel> list = snapshot.data ?? [];
-                  list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
 
-                  return UserlistSection(
-                    scrollController: scrollController,
-                    list: list,
-                  );
-                }
+          Expanded(
+            child: Obx(() {
+              if (studentController.isLoading.value) {
                 return const Center(child: CircularProgressIndicator());
-              }),
+              } else if (studentController.studentlists.isEmpty) {
+                return const Center(child: Text('No data found'));
+              } else {
+                return UserlistSection(
+                  scrollController: scrollController,
+                  list: studentController.studentlists,
+                );
+              }
+            }),
+          )
+
+          //  StreamBuilder<List<StudentModel>>(
+          //   stream: studentService.getStudent(),
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return const Center(child: CircularProgressIndicator());
+          //     }
+          //     if (snapshot.hasError) {
+          //       return const Center(child: Text('Something went wrong'));
+          //     }
+          //     if (!snapshot.hasData || snapshot.data == null) {
+          //       return const Center(child: Text('No data found'));
+          //     }
+
+          //     List<StudentModel> list = snapshot.data ?? [];
+          //     list.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+
+          //     return UserlistSection(
+          //       scrollController: scrollController,
+          //       list: list,
+          //     );
+          //   },
+          // ),
         ],
       ),
       floatingActionButton: ScrollToHide(

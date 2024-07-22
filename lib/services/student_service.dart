@@ -17,19 +17,27 @@ class StudentService {
   }
 
   // read
-
-  Stream<List<StudentModel>> getStudent() {
-    try {
-      return _collectionReference.snapshots().map((QuerySnapshot snapshot) {
-        return snapshot.docs.map((DocumentSnapshot doc) {
-          return StudentModel.fromJson(doc);
-        }).toList();
-      });
-    } on FirebaseException catch (e) {
-      'Error creating student: ${e.message}';
-      rethrow;
+  Future<List<StudentModel>> getStudent() async {
+    List<StudentModel> studentList = [];
+    final snapshot = await _collectionReference.get();
+    for (var element in snapshot.docs) {
+      studentList.add(StudentModel.fromJson(element));
     }
+    return studentList;
   }
+
+  // Stream<List<StudentModel>> getStudent() {
+  //   try {
+  //     return _collectionReference.snapshots().map((QuerySnapshot snapshot) {
+  //       return snapshot.docs.map((DocumentSnapshot doc) {
+  //         return StudentModel.fromJson(doc);
+  //       }).toList();
+  //     });
+  //   } on FirebaseException catch (e) {
+  //     'Error creating student: ${e.message}';
+  //     rethrow;
+  //   }
+  // }
   // update
 
   Future<void> updateStudent(StudentModel student) async {
@@ -37,6 +45,7 @@ class StudentService {
       final studentMap = student.toMap();
       await _collectionReference.doc(student.id).update(studentMap);
     } on FirebaseException catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   }
@@ -47,7 +56,10 @@ class StudentService {
     try {
       await _collectionReference.doc(id).delete();
     } on FirebaseException catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   }
+
+  // search
 }

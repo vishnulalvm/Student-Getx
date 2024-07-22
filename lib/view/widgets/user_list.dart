@@ -2,6 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/services/student_service.dart';
 import 'package:myapp/models/student_model.dart';
+import 'package:myapp/view/pages/student_details.dart';
+import 'package:myapp/view/widgets/confirm_dialogbox.dart';
 import 'package:myapp/view/widgets/show_dialog.dart';
 import 'package:myapp/utils/font/font_color.dart';
 import 'package:myapp/utils/text/modified_text.dart';
@@ -36,7 +38,12 @@ class _UserlistSectionState extends State<UserlistSection> {
                 transitionType: ContainerTransitionType
                     .fadeThrough, // Adjust the transition type as needed
                 openBuilder: (BuildContext context, VoidCallback _) {
-                  return const SizedBox();
+                  return StudentDetails(
+                    name: student.name!,
+                    age: student.age!,
+                    imageUrl: student.imageUrl!,
+                    id: student.id!,
+                  );
                 },
                 closedElevation: 1,
                 closedShape: const RoundedRectangleBorder(
@@ -55,30 +62,41 @@ class _UserlistSectionState extends State<UserlistSection> {
                     ),
                     subtitle: ModifiedText(
                         text: student.age.toString(),
-                        size: 12,
+                        size: 13,
                         color: Colors.black),
                     title: ModifiedText(
                       text: student.name!,
-                      size: 13,
+                      size: 15,
                       color: AppColor.fontColor,
                       fontWeight: FontWeight.w700,
                     ),
                     trailing: SizedBox(
-                      width: 100,
+                      width: 50,
                       child: Row(
                         children: [
+                          // IconButton(
+                          //   onPressed: () {
+                          //     editButton(context, student);
+                          //   },
+                          //   icon: const Icon(
+                          //     Icons.edit,
+                          //     color: Colors.black,
+                          //   ),
+                          // ),
                           IconButton(
                             onPressed: () {
-                              editButton(context, student);
-                            },
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.black,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              studentService.deleteStudent(student.id);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return MyAlertDialog(
+                                    onYes: () => studentService
+                                        .deleteStudent(student.id),
+                                    message:
+                                        'Are you sure you want to proceed?',
+                                    context: context,
+                                  );
+                                },
+                              );
                             },
                             icon: const Icon(
                               Icons.delete,
